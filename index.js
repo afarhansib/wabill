@@ -1,3 +1,16 @@
+//spintax-start
+var SPINTAX_PATTERN = /\{[^"\r\n\}]*\}/;
+   var spin = function (spun) {
+  var match;
+  while (match = spun.match(SPINTAX_PATTERN)) {
+   match = match[0];
+   var candidates = match.substring(1, match.length - 1).split("|");
+   spun = spun.replace(match, candidates[Math.floor(Math.random() * candidates.length)])
+  }
+  return spun;
+ }
+//spintax-end
+ 
 const { WAConnection, MessageType } = require("@adiwajshing/baileys")
 const fs = require("fs")
 const http = require("http")
@@ -77,7 +90,7 @@ io.on("connection", async socket => {
 })
 
 app.post('/send-message', async (req, res) => {
-  const message = req.body.message
+  const message = spin(req.body.message)
   const number = req.body.number
 
   if (wa.state === "open") {
