@@ -221,12 +221,20 @@ let sendMessages = () => {
 		  	updateStatus(i - 1,"sending...")
 		  	updateProgress(`${i}/${formattedData.length - 1}`)
 		    console.log(`Mengirimkan pesan ke ${e[2]}`)
+				// console.log(`pesannya adalah: ${encodeURIComponent(rawMsg[i - 1])}`)
+		    // fetch(document.getElementById("server").value + "send-message", {
+				// 	method: "POST",
+				// 	headers: {
+				// 		"content-type":"application/x-www-form-urlencoded"
+				// 	},
+				// 	body: `number=${e[1]}&message=${encodeURIComponent(rawMsg[i - 1])}`
+				// })
 		    fetch(document.getElementById("server").value + "send-message", {
 					method: "POST",
 					headers: {
-						"content-type":"application/x-www-form-urlencoded"
+						'Content-Type': 'application/json'
 					},
-					body: `number=${e[1]}&message=${rawMsg[i - 1]}`
+					body: JSON.stringify({number: e[1], message: rawMsg[i - 1]})
 				})
 				.then(r => r.json())
 				.then(res => {
